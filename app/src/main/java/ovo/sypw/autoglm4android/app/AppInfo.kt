@@ -9,12 +9,6 @@ import android.content.pm.PackageManager
  */
 object AppInfo {
 
-    private var context: Context? = null
-
-    fun init(context: Context) {
-        this.context = context.applicationContext
-    }
-
     fun getVersionName(): String {
         return getPackageInfo()?.versionName ?: "Unknown"
     }
@@ -32,47 +26,49 @@ object AppInfo {
         }
     }
 
-    fun getPackageName(): String {
-        return context?.packageName ?: "Unknown"
+    fun getPackageName(context: Context): String {
+        return context.packageName ?: "Unknown"
     }
 
-    fun getAppName(): String {
+    fun getAppName(context: Context): String {
         return try {
-            val packageManager = context?.packageManager
-            val appInfo = packageManager?.getApplicationInfo(getPackageName(), 0)
+            val packageManager = context.packageManager
+            val appInfo = packageManager?.getApplicationInfo(getPackageName(context), 0)
             packageManager?.getApplicationLabel(appInfo!!)?.toString() ?: "AutoGLM"
         } catch (e: Exception) {
             "AutoGLM"
         }
     }
 
-    private fun getPackageInfo(): PackageInfo? {
+    private fun getPackageInfo(context: Context): PackageInfo? {
         return try {
-            context?.packageManager?.getPackageInfo(getPackageName(), 0)
+            context.packageManager?.getPackageInfo(getPackageName(context), 0)
         } catch (e: PackageManager.NameNotFoundException) {
             null
         }
     }
 
-    fun isInstalled(packageName: String): Boolean {
+    fun isInstalled(packageName: String,context: Context): Boolean {
         return try {
-            context?.packageManager?.getPackageInfo(packageName, 0)
+            context.packageManager?.getPackageInfo(packageName, 0)
             true
         } catch (e: PackageManager.NameNotFoundException) {
             false
         }
     }
 
-    fun getAppInfo(packageName: String): AppInfoData? {
+    fun getAppInfo(packageName: String,context: Context): AppInfoData? {
         return try {
-            val packageManager = context?.packageManager
+            val packageManager = context.packageManager
             val appInfo = packageManager?.getApplicationInfo(packageName, 0)
             AppInfoData(
                 packageName = packageName,
                 appName = packageManager?.getApplicationLabel(appInfo!!)?.toString() ?: packageName,
                 versionName = try {
                     packageManager?.getPackageInfo(packageName, 0)?.versionName
-                } catch (e: Exception) { null },
+                } catch (e: Exception) {
+                    null
+                },
                 versionCode = try {
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
                         packageManager?.getPackageInfo(packageName, 0)?.longVersionCode
@@ -80,7 +76,9 @@ object AppInfo {
                         @Suppress("DEPRECATION")
                         packageManager?.getPackageInfo(packageName, 0)?.versionCode?.toLong()
                     }
-                } catch (e: Exception) { null }
+                } catch (e: Exception) {
+                    null
+                }
             )
         } catch (e: Exception) {
             null
@@ -94,14 +92,4 @@ object AppInfo {
         val versionCode: Long?
     )
 
-    companion object {
-        @Volatile
-        private var instance: AppInfo? = null
-
-        fun getInstance(): AppInfo {
-            return instance ?: synchronized(this) {
-                instance ?: AppInfo().also { instance = it }
-            }
-        }
-    }
 }

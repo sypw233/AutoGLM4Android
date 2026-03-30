@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import ovo.sypw.autoglm4android.R
 import java.util.concurrent.CopyOnWriteArrayList
+import androidx.core.graphics.toColorInt
 
 /**
  * 悬浮窗视图
@@ -22,7 +23,7 @@ class FloatingWindowView(context: Context) : View(context) {
     private var rootView: CardView = CardView(context).apply {
         radius = 24f
         cardElevation = 8f
-        setCardBackgroundColor(Color.parseColor("#E6FFFFFF"))
+        setCardBackgroundColor("#E6FFFFFF".toColorInt())
         setContentPadding(24, 16, 24, 16)
     }
 
