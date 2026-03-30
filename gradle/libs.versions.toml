@@ -45,6 +45,7 @@ shizuku = "13.1.5"
 mockk = "1.14.9"
 kotest = "5.9.1"
 turbine = "1.2.1"
+cardview = "1.0.0"
 
 [libraries]
 # AndroidX Core
@@ -111,6 +112,7 @@ shizuku-provider = { group = "dev.rikka.shizuku", name = "provider", version.ref
 # Testing
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
+androidx-cardview = { group = "androidx.cardview", name = "cardview", version.ref = "cardview" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

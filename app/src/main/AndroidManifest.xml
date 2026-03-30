@@ -21,6 +21,9 @@
     <uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE"
         tools:ignore="ProtectedPermissions" />
 
+    <!-- Microphone -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -56,6 +59,36 @@
             android:name=".service.UserService"
             android:exported="true"
             android:permission="moe.shizuku.manager.permission.API_V23" />
+
+        <!-- Floating Window Service -->
+        <service
+            android:name=".service.FloatingWindowService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="floating_window" />
+        </service>
+
+        <!-- Voice Input Service -->
+        <service
+            android:name=".input.VoiceInputService"
+            android:exported="false"
+            android:foregroundServiceType="microphone" />
+
+        <!-- AutoGLM Keyboard Service -->
+        <service
+            android:name=".input.AutoGLMKeyboardService"
+            android:exported="true"
+            android:label="AutoGLM 输入法"
+            android:permission="android.permission.BIND_INPUT_METHOD">
+            <intent-filter>
+                <action android:name="android.view.InputMethod" />
+            </intent-filter>
+            <meta-data
+                android:name="android.view.im"
+                android:resource="@xml/method" />
+        </service>
     </application>
 
 </manifest>

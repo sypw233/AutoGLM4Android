@@ -4,27 +4,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
+import ovo.sypw.autoglm4android.ui.history.HistoryScreen
 import ovo.sypw.autoglm4android.ui.home.HomeScreen
 import ovo.sypw.autoglm4android.ui.settings.SettingsScreen
 import ovo.sypw.autoglm4android.ui.theme.AutoGLM4AndroidTheme
@@ -77,42 +65,16 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable(Screen.History.route) {
-                            HistoryPlaceholderScreen(
-                                onNavigateBack = { navController.popBackStack() }
+                            HistoryScreen(
+                                onNavigateBack = { navController.popBackStack() },
+                                onNavigateToDetail = { taskId ->
+                                    navController.navigate(Screen.HistoryDetail.createRoute(taskId))
+                                }
                             )
                         }
                     }
                 }
             }
-        }
-    }
-}
-
-/**
- * 历史记录占位屏幕
- */
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun HistoryPlaceholderScreen(onNavigateBack: () -> Unit) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("历史记录") },
-                navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, "返回")
-                    }
-                }
-            )
-        }
-    ) { padding ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding),
-            contentAlignment = Alignment.Center
-        ) {
-            Text("历史记录功能开发中...")
         }
     }
 }
