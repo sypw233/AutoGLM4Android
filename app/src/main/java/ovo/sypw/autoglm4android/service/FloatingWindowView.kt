@@ -25,7 +25,13 @@ class FloatingWindowView(context: Context) : View(context) {
         setCardBackgroundColor(Color.parseColor("#E6FFFFFF"))
         setContentPadding(24, 16, 24, 16)
     }
-    private var statusText: TextView
+
+    // 状态文本
+    private var statusText: TextView = TextView(context).apply {
+        text = "等待任务..."
+        textSize = 14f
+        setTextColor(Color.BLACK)
+    }
     private var closeButton: ImageView
     private var lastX = 0
     private var lastY = 0
@@ -37,13 +43,6 @@ class FloatingWindowView(context: Context) : View(context) {
     private val steps = CopyOnWriteArrayList<String>()
 
     init {
-
-        // 状态文本
-        statusText = TextView(context).apply {
-            text = "等待任务..."
-            textSize = 14f
-            setTextColor(Color.BLACK)
-        }
 
         // 关闭按钮
         closeButton = ImageView(context).apply {
